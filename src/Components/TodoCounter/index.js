@@ -1,13 +1,13 @@
 import React from "react";
 import "./TodoCounter.css";
 
-function TodoCounter({completedTodos, totalTodos}) {
+function TodoCounter({loading, completedTodos, totalTodos}) {
   return totalTodos === completedTodos ? (
-    <h1 className="TodoCounter">Todo en orden</h1>
+    <h2 className={`TodoCounter ${!!loading && 'TodoCounter--loading'}`}>Todo en orden</h2>
   ) : (
-    <h1 className="TodoCounter">
+    <h2 className={`TodoCounter ${!!loading && 'TodoCounter--loading'}`}>
       Has completado <span>{completedTodos}</span> de <span>{totalTodos}</span> TODOS
-    </h1>
+    </h2>
   );
 }
 
