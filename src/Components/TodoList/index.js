@@ -9,9 +9,9 @@ function TodoList({ loading, error, searchedTodos, totalTodos, searchValue, onLo
       {loading && onLoading()}
       {(!loading && !totalTodos) && onEmptyTodos()}
       {(!!totalTodos && !searchedTodos.length) && onEmptySearchResults(searchValue)}
-      {<ul className="TodoList">
-        {searchedTodos.map(todo => render(todo))}
-      </ul>}
+      <ul className="TodoList">
+        {(!loading && !error) && searchedTodos.map(todo => render(todo))}
+      </ul>
     </section>
   )
 }

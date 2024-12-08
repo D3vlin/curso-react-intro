@@ -3,6 +3,7 @@ import { useLocalStorage } from "../Hooks/useLocalStorage";
 
 function useTodos() {
   const {
+    sincronizeItem,
     item: todos,
     saveItem: saveTodos,
     loading,
@@ -54,7 +55,8 @@ function useTodos() {
       deleteTodo,
       openModal,
       setOpenModal,
-      addTodo
+      addTodo,
+      sincronizeItem
     }
   );
 }
