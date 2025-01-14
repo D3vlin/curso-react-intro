@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useTodos } from "../useTodos";
 import { TodoHeader } from "../../ui/TodoHeader";
 import { TodoCounter } from "../../ui/TodoCounter";
@@ -9,12 +10,11 @@ import { CreateTodoButton } from "../../ui/CreateTodoButton";
 import { TodosLoading } from "../../ui/TodosLoading";
 import { TodosError } from "../../ui/TodosError";
 import { TodosEmpty } from "../../ui/TodosEmpty";
-import { Modal } from "../../ui/Modal";
-import { TodoForm } from "../../ui/TodoForm";
 import { ChangeAlertWithStorageListener } from "../../ui/ChangeAlert";
 
 function HomePage() {
-    const { loading, error, searchedTodos, completeTodo, deleteTodo, openModal, setOpenModal, completedTodos, totalTodos, searchValue, setSearchValue, addTodo, sincronizeItem } =
+    const navigate = useNavigate()
+    const { loading, error, searchedTodos, completeTodo, deleteTodo, completedTodos, totalTodos, searchValue, setSearchValue, sincronizeItem } =
         useTodos();
 
     return (
@@ -36,17 +36,13 @@ function HomePage() {
                         text={todo.text}
                         completed={todo.completed}
                         onComplete={() => completeTodo(todo.id)}
+                        onEdit={() => navigate('/edit/' + todo.id)}
                         onDelete={() => deleteTodo(todo.id)}
                     />
                 )}
             />
             <ChangeAlertWithStorageListener sincronize={sincronizeItem} />
-            <CreateTodoButton setOpenModal={setOpenModal} />
-            {openModal && (
-                <Modal>
-                    <TodoForm addTodo={addTodo} setOpenModal={setOpenModal} />
-                </Modal>
-            )}
+            <CreateTodoButton onClick={() => navigate('/new')} />
         </>
     );
 }
