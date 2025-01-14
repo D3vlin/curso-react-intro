@@ -8,7 +8,7 @@ function useTodos() {
     saveItem: saveTodos,
     loading,
     error,
-  } = useLocalStorage("TODOS_V1", []);
+  } = useLocalStorage("TODOS_V2", []);
 
   const [searchValue, setSearchValue] = React.useState("");
   const [openModal, setOpenModal] = React.useState(false);
@@ -20,26 +20,34 @@ function useTodos() {
     todo.text.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  const completeTodo = (text) => {
+  const addTodo = (text) => {
     const newTodos = [...todos];
-    const todoIndex = newTodos.findIndex((todo) => todo.text === text);
+    const id = newTodoId(todos)
+    newTodos.push({
+      id, text, completed: false
+    });
+    saveTodos(newTodos);
+  }
+
+  const completeTodo = (id) => {
+    const newTodos = [...todos];
+    const todoIndex = newTodos.findIndex((todo) => todo.id === id);
     newTodos[todoIndex].completed = true;
     saveTodos(newTodos);
   };
 
-  const deleteTodo = (text) => {
+  const deleteTodo = (id) => {
     const newTodos = [...todos];
-    const todoIndex = newTodos.findIndex((todo) => todo.text === text);
+    const todoIndex = newTodos.findIndex((todo) => todo.id === id);
     newTodos.splice(todoIndex, 1);
     saveTodos(newTodos);
   };
 
-  const addTodo = (text) => {
-    const newTodos = [...todos];
-    newTodos.push({
-      text, completed: false
-    });
-    saveTodos(newTodos);
+  const newTodoId = (todoList) => {
+    if (!todoList.length) return 1
+
+    const idList = todoList.map(todo => todo.id)
+    return (Math.max(...idList) + 1)
   }
 
   return (
